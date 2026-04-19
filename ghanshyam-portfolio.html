@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ghanshyam Paunikar — Data Analyst & AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A0B;
+    --bg-elevated: #111113;
+    --bg-card: #141417;
+    --border: #1F1F23;
+    --border-hover: #2A2A30;
+    --text: #F4F4F5;
+    --text-dim: #A1A1AA;
+    --text-muted: #6B6B73;
+    --accent: #A5F263;
+    --accent-dim: #4A7A2E;
+    --amber: #F59E0B;
+    --coral: #FB7185;
+    --blue: #60A5FA;
+    --purple: #C4B5FD;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  html { scroll-behavior: smooth; }
+  
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: overlay;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 1.25rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(10, 10, 11, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+  }
+  .logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.35rem;
+    font-style: italic;
+    letter-spacing: -0.02em;
+  }
+  .nav-links { display: flex; gap: 2rem; }
+  .nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    padding: 8rem 0 4rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.875rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-bottom: 2rem;
+    background: var(--bg-elevated);
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  .hero h1 {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 500;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 .italic {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 1.125rem;
+    color: var(--text-dim);
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    line-height: 1.65;
+  }
+
+  .hero-cta { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0A0A0B;
+  }
+  .btn-primary:hover { background: #B8F582; transform: translateY(-1px); }
+  .btn-ghost {
+    border: 1px solid var(--border);
+    color: var(--text);
+    background: transparent;
+  }
+  .btn-ghost:hover { border-color: var(--border-hover); background: var(--bg-elevated); }
+
+  /* Hero right — monogram card */
+  .hero-visual {
+    aspect-ratio: 1/1;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(165, 242, 99, 0.15), transparent 50%);
+  }
+  .monogram {
+    font-family: 'Instrument Serif', serif;
+    font-size: 16rem;
+    font-style: italic;
+    color: var(--accent);
+    line-height: 1;
+    position: relative;
+    z-index: 2;
+  }
+  .visual-meta {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    z-index: 2;
+  }
+
+  /* Marquee */
+  .marquee {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1.25rem 0;
+    overflow: hidden;
+    margin-top: 4rem;
+    background: var(--bg-elevated);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    animation: scroll 30s linear infinite;
+    white-space: nowrap;
+  }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .marquee span {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.125rem;
+    color: var(--text-dim);
+  }
+  .marquee .dot {
+    color: var(--accent);
+    font-family: sans-serif;
+  }
+
+  /* SECTIONS */
+  section { padding: 6rem 0; position: relative; }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .section-title .italic {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .section-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+  }
+  .about-text {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--text);
+    font-weight: 300;
+  }
+  .about-text p { margin-bottom: 1.5rem; }
+  .about-text .highlight {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  .about-stats { display: flex; flex-direction: column; gap: 1rem; }
+  .stat-block {
+    padding: 1.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .stat-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 3rem;
+    font-weight: 400;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .stat-lbl {
+    font-size: 0.813rem;
+    color: var(--text-dim);
+  }
+
+  /* PROJECTS */
+  .projects-list { display: flex; flex-direction: column; }
+  .project {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 2rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: inherit;
+    transition: padding 0.3s ease;
+    cursor: pointer;
+  }
+  .project:hover {
+    padding-left: 1rem;
+  }
+  .project:hover .project-name {
+    color: var(--accent);
+  }
+  .project:hover .arrow {
+    transform: translate(4px, -4px);
+    color: var(--accent);
+  }
+  .project-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    padding-top: 0.375rem;
+  }
+  .project-info { min-width: 0; }
+  .project-name {
+    font-size: 1.75rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+    transition: color 0.2s;
+  }
+  .project-desc {
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+  .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.688rem;
+    padding: 0.25rem 0.625rem;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .arrow {
+    font-size: 2rem;
+    color: var(--text-muted);
+    transition: all 0.3s;
+    font-weight: 300;
+  }
+
+  /* SKILLS */
+  .skills-section {
+    background: var(--bg-elevated);
+    margin: 0 -2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+  .skill-category {
+    padding: 2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    transition: border-color 0.2s;
+  }
+  .skill-category:hover { border-color: var(--accent-dim); }
+  .skill-cat-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .skill-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.25rem;
+    font-style: italic;
+  }
+  .skill-icon.i1 { background: rgba(165, 242, 99, 0.12); color: var(--accent); }
+  .skill-icon.i2 { background: rgba(251, 113, 133, 0.12); color: var(--coral); }
+  .skill-icon.i3 { background: rgba(96, 165, 250, 0.12); color: var(--blue); }
+  .skill-icon.i4 { background: rgba(245, 158, 11, 0.12); color: var(--amber); }
+  .skill-cat-title {
+    font-size: 1.125rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .skill-cat-desc {
+    font-size: 0.813rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .skill-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .skill-pill {
+    font-size: 0.813rem;
+    padding: 0.375rem 0.75rem;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text);
+    transition: all 0.2s;
+  }
+  .skill-pill:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* EXPERIENCE & CERTS */
+  .exp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .exp-col h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .exp-item, .cert-item {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .exp-item:last-child, .cert-item:last-child { border-bottom: none; }
+  .exp-role {
+    font-size: 1.125rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  .exp-company {
+    font-size: 0.875rem;
+    color: var(--text-dim);
+    margin-bottom: 0.5rem;
+  }
+  .exp-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+  }
+  .cert-title {
+    font-size: 0.938rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  .cert-issuer {
+    font-size: 0.813rem;
+    color: var(--text-dim);
+  }
+
+  /* CONTACT */
+  .contact {
+    padding: 8rem 0;
+    text-align: center;
+  }
+  .contact h2 {
+    font-family: 'Inter Tight', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 2rem;
+  }
+  .contact h2 .italic {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+  }
+  .contact p {
+    font-size: 1.125rem;
+    color: var(--text-dim);
+    max-width: 500px;
+    margin: 0 auto 3rem;
+  }
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .hero-grid, .about-grid, .exp-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .hero-visual { max-width: 400px; margin: 0 auto; }
+    .monogram { font-size: 10rem; }
+    .project { grid-template-columns: 1fr; gap: 1rem; }
+    .project-num { padding-top: 0; }
+    .arrow { display: none; }
+    .nav-links { display: none; }
+    .container { padding: 0 1.5rem; }
+    .skills-section { margin: 0 -1.5rem; padding-left: 1.5rem; padding-right: 1.5rem; }
+  }
+
+  /* Reveal animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: reveal 0.8s ease forwards;
+  }
+  .d1 { animation-delay: 0.1s; }
+  .d2 { animation-delay: 0.2s; }
+  .d3 { animation-delay: 0.3s; }
+  .d4 { animation-delay: 0.4s; }
+  @keyframes reveal {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Ghanshyam P.</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge reveal d1">
+          <span class="status-dot"></span>
+          <span>Available for new opportunities</span>
+        </div>
+        <h1 class="reveal d2">
+          Building <span class="italic">intelligent</span><br>
+          systems that<br>
+          actually <span class="italic">ship</span>.
+        </h1>
+        <p class="hero-sub reveal d3">
+          Data Analyst at Sigma AI, London. 3+ years turning complex AI challenges into production-grade solutions across NLP, computer vision, and generative AI.
+        </p>
+        <div class="hero-cta reveal d4">
+          <a href="#work" class="btn btn-primary">View work →</a>
+          <a href="mailto:ghanshyampaunikar@gmail.com" class="btn btn-ghost">Get in touch</a>
+        </div>
+      </div>
+      <div class="hero-visual reveal d3">
+        <div class="monogram">gp</div>
+        <div class="visual-meta">
+          <span>London · UTC+1</span>
+          <span>Sigma AI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>Python</span><span class="dot">✦</span>
+    <span>Computer Vision</span><span class="dot">✦</span>
+    <span>Large Language Models</span><span class="dot">✦</span>
+    <span>PyTorch</span><span class="dot">✦</span>
+    <span>Generative AI</span><span class="dot">✦</span>
+    <span>Data Pipelines</span><span class="dot">✦</span>
+    <span>MLOps</span><span class="dot">✦</span>
+    <span>Python</span><span class="dot">✦</span>
+    <span>Computer Vision</span><span class="dot">✦</span>
+    <span>Large Language Models</span><span class="dot">✦</span>
+    <span>PyTorch</span><span class="dot">✦</span>
+    <span>Generative AI</span><span class="dot">✦</span>
+    <span>Data Pipelines</span><span class="dot">✦</span>
+    <span>MLOps</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">01 — About</div>
+        <h2 class="section-title">The <span class="italic">story</span></h2>
+      </div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I'm a results-driven <span class="highlight">AI engineer and data analyst</span> with over 3 years of experience designing and deploying scalable machine learning systems.
+        </p>
+        <p>
+          My work spans <span class="highlight">natural language processing, computer vision, and generative AI</span> — from YOLO-powered detection systems running at the edge to ChatGPT-driven NPCs that boosted player engagement by 45%.
+        </p>
+        <p>
+          I've always been curious why kids mimic abacus moves in the air, so I built an air calculator to make it real. That's kind of how I work — curiosity first, shipped product second.
+        </p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-block">
+          <div class="stat-num">3+</div>
+          <div class="stat-lbl">Years of experience</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-num">12</div>
+          <div class="stat-lbl">Public repositories</div>
+        </div>
+        <div class="stat-block">
+          <div class="stat-num">6</div>
+          <div class="stat-lbl">Professional certifications</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">02 — Selected work</div>
+        <h2 class="section-title">Featured <span class="italic">projects</span></h2>
+      </div>
+      <div class="section-count">05 projects</div>
+    </div>
+    <div class="projects-list">
+      <a href="https://github.com/GhanshyamPaunikar/AI-NPC" target="_blank" class="project">
+        <div class="project-num">01</div>
+        <div class="project-info">
+          <div class="project-name">AI-Driven NPC for Gaming</div>
+          <div class="project-desc">A Unity game with ChatGPT-powered NPCs for dynamic storytelling. Integrated Meta Lip Sync and Eleven Labs API — delivered a 45% boost in player engagement.</div>
+          <div class="project-tags">
+            <span class="tag">Python</span>
+            <span class="tag">Unity</span>
+            <span class="tag">C#</span>
+            <span class="tag">Generative AI</span>
+          </div>
+        </div>
+        <div class="arrow">↗</div>
+      </a>
+
+      <a href="https://github.com/GhanshyamPaunikar/Air-Calculator" target="_blank" class="project">
+        <div class="project-num">02</div>
+        <div class="project-info">
+          <div class="project-name">Air Calculator</div>
+          <div class="project-desc">Real-time finger-based calculator with 98% accuracy using hand tracking. Robust across 50+ lighting conditions — pure Python and OpenCV.</div>
+          <div class="project-tags">
+            <span class="tag">Python</span>
+            <span class="tag">OpenCV</span>
+            <span class="tag">MediaPipe</span>
+          </div>
+        </div>
+        <div class="arrow">↗</div>
+      </a>
+
+      <a href="https://github.com/ghanshyampaunikar/mask-detection" target="_blank" class="project">
+        <div class="project-num">03</div>
+        <div class="project-info">
+          <div class="project-name">Scalable Mask Detection</div>
+          <div class="project-desc">A YOLO-powered CNN achieving 95% accuracy for real-time mask detection. Scaled to 20+ concurrent streams for edge devices in public spaces.</div>
+          <div class="project-tags">
+            <span class="tag">TensorFlow</span>
+            <span class="tag">YOLO</span>
+            <span class="tag">OpenCV</span>
+          </div>
+        </div>
+        <div class="arrow">↗</div>
+      </a>
+
+      <a href="https://github.com/ghanshyampaunikar/image-upscaler" target="_blank" class="project">
+        <div class="project-num">04</div>
+        <div class="project-info">
+          <div class="project-name">Image Resolution Upscaler</div>
+          <div class="project-desc">An SRGAN-based tool upscaling images by 35% with GPU acceleration. Prototyped for commercial-grade media applications.</div>
+          <div class="project-tags">
+            <span class="tag">PyTorch</span>
+            <span class="tag">SRGAN</span>
+            <span class="tag">CUDA</span>
+          </div>
+        </div>
+        <div class="arrow">↗</div>
+      </a>
+
+      <a href="https://github.com/ghanshyampaunikar/driver-alert" target="_blank" class="project">
+        <div class="project-num">05</div>
+        <div class="project-info">
+          <div class="project-name">Driver Sleepiness Alert</div>
+          <div class="project-desc">94% accurate eye-closure detection with IoT-triggered alerts in under 0.8 seconds. Optimized for low-resource devices to enhance road safety.</div>
+          <div class="project-tags">
+            <span class="tag">OpenCV</span>
+            <span class="tag">Dlib</span>
+            <span class="tag">IoT</span>
+          </div>
+        </div>
+        <div class="arrow">↗</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="skills-section">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">03 — Capabilities</div>
+        <h2 class="section-title">The <span class="italic">toolkit</span></h2>
+      </div>
+      <div class="section-count">40+ technologies</div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-category">
+        <div class="skill-cat-header">
+          <div class="skill-icon i1">L</div>
+          <div>
+            <div class="skill-cat-title">Languages & frameworks</div>
+            <div class="skill-cat-desc">The foundation</div>
+          </div>
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">SQL</span>
+          <span class="skill-pill">C#</span>
+          <span class="skill-pill">Flask</span>
+          <span class="skill-pill">FastAPI</span>
+          <span class="skill-pill">Pandas</span>
+          <span class="skill-pill">NumPy</span>
+          <span class="skill-pill">SciPy</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-cat-header">
+          <div class="skill-icon i2">M</div>
+          <div>
+            <div class="skill-cat-title">Machine learning & AI</div>
+            <div class="skill-cat-desc">Core models and libraries</div>
+          </div>
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">TensorFlow</span>
+          <span class="skill-pill">PyTorch</span>
+          <span class="skill-pill">Keras</span>
+          <span class="skill-pill">Scikit-learn</span>
+          <span class="skill-pill">Hugging Face</span>
+          <span class="skill-pill">BERT</span>
+          <span class="skill-pill">Transformers</span>
+          <span class="skill-pill">RAG</span>
+          <span class="skill-pill">Reinforcement Learning</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-cat-header">
+          <div class="skill-icon i3">C</div>
+          <div>
+            <div class="skill-cat-title">Computer vision & NLP</div>
+            <div class="skill-cat-desc">Domain specializations</div>
+          </div>
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">OpenCV</span>
+          <span class="skill-pill">YOLO</span>
+          <span class="skill-pill">UNet</span>
+          <span class="skill-pill">SSD</span>
+          <span class="skill-pill">GANs</span>
+          <span class="skill-pill">CNNs</span>
+          <span class="skill-pill">LSTMs</span>
+          <span class="skill-pill">NER</span>
+          <span class="skill-pill">Sentiment Analysis</span>
+        </div>
+      </div>
+
+      <div class="skill-category">
+        <div class="skill-cat-header">
+          <div class="skill-icon i4">D</div>
+          <div>
+            <div class="skill-cat-title">Data & cloud</div>
+            <div class="skill-cat-desc">Visualization, infra, ops</div>
+          </div>
+        </div>
+        <div class="skill-pills">
+          <span class="skill-pill">Tableau</span>
+          <span class="skill-pill">Power BI</span>
+          <span class="skill-pill">Plotly</span>
+          <span class="skill-pill">Matplotlib</span>
+          <span class="skill-pill">Seaborn</span>
+          <span class="skill-pill">AWS</span>
+          <span class="skill-pill">GCP</span>
+          <span class="skill-pill">Git</span>
+          <span class="skill-pill">A/B Testing</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE & CERTS -->
+<section>
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label">04 — Background</div>
+        <h2 class="section-title">Experience & <span class="italic">credentials</span></h2>
+      </div>
+    </div>
+    <div class="exp-grid">
+      <div class="exp-col">
+        <h3>Experience</h3>
+        <div class="exp-item">
+          <div class="exp-role">Data Analyst</div>
+          <div class="exp-company">Sigma AI · London, UK</div>
+          <div class="exp-date">Present</div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-role">MSc Data Science & AI</div>
+          <div class="exp-company">Postgraduate Research</div>
+          <div class="exp-date">Recently completed</div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-role">AI/ML Engineer</div>
+          <div class="exp-company">Independent projects · Open source</div>
+          <div class="exp-date">3+ years</div>
+        </div>
+      </div>
+      <div class="exp-col">
+        <h3>Certifications</h3>
+        <div class="cert-item">
+          <div class="cert-title">IBM Data Science Professional Certificate</div>
+          <div class="cert-issuer">IBM · March 2025</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-title">Responsible Generative AI Specialization</div>
+          <div class="cert-issuer">University of Michigan</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-title">Elements of AI</div>
+          <div class="cert-issuer">University of Helsinki</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-title">Machine Learning, Data Science & Deep Learning</div>
+          <div class="cert-issuer">Udemy</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-title">AI & Augmented Reality in Unity & Xcode</div>
+          <div class="cert-issuer">Udemy</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-title">Python Programming for AI</div>
+          <div class="cert-issuer">Datai Team</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact">
+  <div class="container">
+    <div class="section-label">05 — Contact</div>
+    <h2>Let's build something <span class="italic">extraordinary</span>.</h2>
+    <p>Open to collaborations, consulting engagements, and full-time opportunities in AI/ML. Fastest reply via email.</p>
+    <div class="contact-links">
+      <a href="mailto:ghanshyampaunikar@gmail.com" class="btn btn-primary">ghanshyampaunikar@gmail.com</a>
+      <a href="https://www.linkedin.com/in/ghanshyampaunikar/" target="_blank" class="btn btn-ghost">LinkedIn</a>
+      <a href="https://github.com/GhanshyamPaunikar" target="_blank" class="btn btn-ghost">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+    <span>© 2026 Ghanshyam Paunikar</span>
+    <span>Built with care · London</span>
+  </div>
+</footer>
+
+</body>
+</html>
