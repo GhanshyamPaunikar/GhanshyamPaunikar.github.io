@@ -44,7 +44,13 @@ body {
   font-weight: 400;
   font-size: 16px;
   line-height: 1.55;
-  background: var(--ink);
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 0%,   rgba(165,242,99,0.07)  0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 80% 30%,  rgba(165,242,99,0.04)  0%, transparent 50%),
+    radial-gradient(ellipse 50% 60% at 0%  70%,  rgba(165,242,99,0.05)  0%, transparent 50%),
+    radial-gradient(ellipse 70% 50% at 100% 80%, rgba(165,242,99,0.03)  0%, transparent 55%),
+    radial-gradient(ellipse 40% 30% at 50% 50%,  rgba(165,242,99,0.02)  0%, transparent 60%),
+    linear-gradient(160deg, #0e0f0b 0%, #0A0A0B 40%, #0b0d09 100%);
   color: var(--paper);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -72,9 +78,12 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; letter-spacing: -0
   pointer-events: none;
   position: fixed; inset: 0; z-index: -1;
   background:
-    radial-gradient(60vmax 40vmax at 10% -10%, rgba(165, 242, 99, 0.08), transparent 60%),
-    radial-gradient(50vmax 40vmax at 110% 20%, rgba(165, 242, 99, 0.04), transparent 60%),
-    radial-gradient(40vmax 30vmax at 50% 120%, rgba(244, 244, 245, 0.03), transparent 70%);
+    radial-gradient(60vmax 40vmax at 10%   -5%,  rgba(165,242,99,0.10), transparent 60%),
+    radial-gradient(50vmax 40vmax at 95%   18%,  rgba(165,242,99,0.06), transparent 55%),
+    radial-gradient(40vmax 30vmax at 50%  115%,  rgba(244,244,245,0.04), transparent 65%),
+    radial-gradient(35vmax 35vmax at 0%    55%,  rgba(165,242,99,0.05), transparent 55%),
+    radial-gradient(45vmax 30vmax at 100%  70%,  rgba(165,242,99,0.04), transparent 60%),
+    radial-gradient(30vmax 25vmax at 50%   40%,  rgba(165,242,99,0.025), transparent 55%);
 }
 
 /* CUSTOM CURSOR */
@@ -692,12 +701,53 @@ footer {
   .grain, .ambient, .cursor, .cursor-dot, .preloader, .nav { display: none !important; }
   body { background: #fff; color: #000; cursor: auto; }
 }
+
+/* ── NEURAL CANVAS (full page, fixed) ── */
+#neural-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.45;
+}
+/* Hero children still need to sit above the canvas */
+.hero > *:not(#neural-canvas) { position: relative; z-index: 2; }
+/* All sections above canvas */
+.nav, .marquee, .block, .cta, footer { position: relative; z-index: 2; }
+
+/* ── TILT CARDS (capabilities) ── */
+/* .reveal normally transitions transform — override that for .cap so JS owns it */
+.cap.reveal, .cap.reveal.in {
+  transition: opacity 1.1s var(--ease) !important;
+}
+.cap {
+  transform-style: preserve-3d;
+  will-change: transform;
+  cursor: none;
+}
+.cap.tilt-leave {
+  transition: opacity 1.1s var(--ease), background 0.3s var(--ease), transform 0.55s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s var(--ease) !important;
+}
+.cap:hover {
+  background: var(--ink-2);
+  box-shadow: 0 24px 60px -20px rgba(165, 242, 99, 0.18);
+}
+
+/* ── MAGNETIC BUTTONS ── */
+.mag-btn {
+  display: inline-block;
+  transition: transform 0.35s var(--ease);
+}
+
+/* ── SCRAMBLE ── */
+/* No extra styles needed — handled by JS on existing h2 elements */
 </style>
 </head>
 <body>
 
 <div class="ambient" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
+<canvas id="neural-canvas" aria-hidden="true"></canvas>
 
 <div class="cursor" id="cursor" aria-hidden="true"></div>
 <div class="cursor-dot" id="cursor-dot" aria-hidden="true"></div>
@@ -742,9 +792,9 @@ footer {
   </div>
 
   <h1 class="hero-statement split" id="hero-title">
-    <span class="line"><span>Data whisperer.</span></span>
-    <span class="line"><span><em>Builder</em> of quietly</span></span>
-    <span class="line"><span>intelligent <em>systems</em>.</span></span>
+    <span class="line"><span>Making machines</span></span>
+    <span class="line"><span>think — and <em>behave</em></span></span>
+    <span class="line"><span>in <em>production</em>.</span></span>
   </h1>
 
   <div class="hero-bottom">
@@ -1333,6 +1383,213 @@ footer {
   document.querySelectorAll('.marquee-track, .foot-marquee-track').forEach(track => {
     track.innerHTML += track.innerHTML;
   });
+})();
+
+/* ═══════════════════════════════════════════════════════
+   NEW: 1. NEURAL NETWORK CANVAS — full page fixed
+═══════════════════════════════════════════════════════ */
+(function neuralNet() {
+  const canvas = document.getElementById('neural-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, nodes = [];
+  const mouse = { x: -9999, y: -9999 };
+  const ACCENT = '165, 242, 99';
+
+  function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    W = canvas.width  = window.innerWidth  * dpr;
+    H = canvas.height = window.innerHeight * dpr;
+    canvas.style.width  = window.innerWidth  + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(dpr, dpr);
+    seed();
+  }
+
+  function seed() {
+    nodes = [];
+    const count = Math.min(90, Math.floor(window.innerWidth * window.innerHeight / 14000));
+    for (let i = 0; i < count; i++) {
+      nodes.push({
+        x:  Math.random() * window.innerWidth,
+        y:  Math.random() * window.innerHeight,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        r:  Math.random() * 1.3 + 0.5
+      });
+    }
+  }
+
+  function draw() {
+    const w = window.innerWidth, h = window.innerHeight;
+    ctx.clearRect(0, 0, w, h);
+    const maxD = 140;
+
+    for (let i = 0; i < nodes.length; i++) {
+      const n = nodes[i];
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > w) n.vx *= -1;
+      if (n.y < 0 || n.y > h) n.vy *= -1;
+
+      // mouse repulsion
+      const mdx = mouse.x - n.x, mdy = mouse.y - n.y;
+      const md  = Math.sqrt(mdx * mdx + mdy * mdy);
+      if (md < 120) {
+        n.x -= mdx * 0.015;
+        n.y -= mdy * 0.015;
+      }
+
+      // draw edges
+      for (let j = i + 1; j < nodes.length; j++) {
+        const m  = nodes[j];
+        const dx = n.x - m.x, dy = n.y - m.y;
+        const d  = Math.sqrt(dx * dx + dy * dy);
+        if (d < maxD) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(${ACCENT}, ${(1 - d / maxD) * 0.25})`;
+          ctx.lineWidth = 0.7;
+          ctx.moveTo(n.x, n.y);
+          ctx.lineTo(m.x, m.y);
+          ctx.stroke();
+        }
+      }
+
+      // draw node
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${ACCENT}, 0.7)`;
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  window.addEventListener('mouseleave', () => { mouse.x = mouse.y = -9999; });
+  window.addEventListener('resize', resize);
+  resize();
+  draw();
+})();
+
+/* ═══════════════════════════════════════════════════════
+   NEW: 2. 3-D TILT — capability cards
+═══════════════════════════════════════════════════════ */
+(function tiltCards() {
+  const MAX_TILT = 9;
+
+  function attach(el) {
+    let raf;
+    el.addEventListener('mouseenter', () => {
+      el.classList.remove('tilt-leave');
+    });
+    el.addEventListener('mousemove', e => {
+      const r  = el.getBoundingClientRect();
+      const cx = r.left + r.width  / 2;
+      const cy = r.top  + r.height / 2;
+      const rx = ((e.clientY - cy) / (r.height / 2)) * -MAX_TILT;
+      const ry = ((e.clientX - cx) / (r.width  / 2)) *  MAX_TILT;
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        el.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) scale3d(1.025,1.025,1.025)`;
+      });
+    });
+    el.addEventListener('mouseleave', () => {
+      cancelAnimationFrame(raf);
+      el.classList.add('tilt-leave');
+      el.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
+    });
+  }
+
+  // Attach immediately to already-visible caps
+  document.querySelectorAll('.cap').forEach(attach);
+
+  // Also re-attach for any cap that gets revealed later via IntersectionObserver
+  // (safe to call attach multiple times — we use a guard flag)
+  const mo = new MutationObserver(mutations => {
+    mutations.forEach(m => {
+      m.target.querySelectorAll && m.target.querySelectorAll('.cap:not([data-tilt])').forEach(el => {
+        el.setAttribute('data-tilt', '1');
+        attach(el);
+      });
+    });
+  });
+  const capsContainer = document.querySelector('.caps');
+  if (capsContainer) mo.observe(capsContainer, { subtree: true, attributes: true, attributeFilter: ['class'] });
+})();
+
+/* ═══════════════════════════════════════════════════════
+   NEW: 3. MAGNETIC BUTTONS — .cta .mail + work-row links
+═══════════════════════════════════════════════════════ */
+(function magnetic() {
+  const STRENGTH = 0.38;
+  const targets = document.querySelectorAll('.cta .mail, .work-row');
+  targets.forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const r  = el.getBoundingClientRect();
+      const mx = e.clientX - r.left - r.width  / 2;
+      const my = e.clientY - r.top  - r.height / 2;
+      el.style.transform = `translate(${mx * STRENGTH}px, ${my * STRENGTH}px)`;
+    });
+    el.addEventListener('mouseleave', () => {
+      el.style.transform = 'translate(0px, 0px)';
+      el.style.transition = 'transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)';
+    });
+    el.addEventListener('mouseenter', () => {
+      el.style.transition = 'transform 0.1s linear';
+    });
+  });
+})();
+
+/* ═══════════════════════════════════════════════════════
+   NEW: 4. SCRAMBLE TEXT — block-head h2 on scroll-in
+═══════════════════════════════════════════════════════ */
+(function scrambleHeadings() {
+  const CHARS = '!<>-_\\/[]{}—=+*^?#ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const STEPS = 18;
+  const FRAME_MS = 28;
+
+  function scramble(el) {
+    // Snapshot the full innerHTML so <em> tags survive
+    const originalHTML = el.innerHTML;
+    const plainText    = el.textContent;
+    const len          = plainText.length;
+    let step = 0;
+
+    const timer = setInterval(() => {
+      step++;
+      const revealUpto = Math.floor((step / STEPS) * len);
+      let out = '';
+      for (let i = 0; i < len; i++) {
+        if (plainText[i] === ' ') { out += ' '; continue; }
+        if (i < revealUpto) {
+          out += plainText[i];
+        } else {
+          out += CHARS[Math.floor(Math.random() * CHARS.length)];
+        }
+      }
+
+      if (step >= STEPS) {
+        clearInterval(timer);
+        el.innerHTML = originalHTML; // restore em tags etc.
+      } else {
+        // Preserve em colour: rebuild HTML with partial reveal
+        // Simple approach — rebuild around known em boundaries
+        el.textContent = out;
+      }
+    }, FRAME_MS);
+  }
+
+  // Observe every block-head h2
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        scramble(e.target);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.4 });
+
+  document.querySelectorAll('.block-head h2, .cta h2').forEach(h => io.observe(h));
 })();
 </script>
 </body>
