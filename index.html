@@ -529,7 +529,28 @@ h1, h2, h3, h4 { font-family: var(--serif); font-weight: 400; letter-spacing: -0
   padding: 28px 32px;
   display: grid; grid-template-columns: 80px 1fr auto;
   gap: 20px; align-items: center;
+  transition: background 0.3s var(--ease), padding-left 0.3s var(--ease);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
 }
+a.cred { cursor: none; }
+a.cred:hover {
+  background: var(--ink-2);
+  padding-left: 40px;
+}
+a.cred:hover .tag {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+a.cred::after {
+  content: '';
+  position: absolute; left: 0; top: 20%; bottom: 20%;
+  width: 2px; background: var(--accent);
+  transform: scaleY(0);
+  transition: transform 0.3s var(--ease);
+}
+a.cred:hover::after { transform: scaleY(1); }
 .cred .yr {
   font-family: var(--mono); font-size: 12px;
   color: var(--accent); letter-spacing: 0.08em;
@@ -793,7 +814,7 @@ footer {
 
   <h1 class="hero-statement split" id="hero-title">
     <span class="line"><span>Making machines</span></span>
-    <span class="line"><span>think and <em>behave</em></span></span>
+    <span class="line"><span>think — and <em>behave</em></span></span>
     <span class="line"><span>in <em>production</em>.</span></span>
   </h1>
 
@@ -1055,10 +1076,18 @@ footer {
       <div class="year">2025</div>
       <div class="arrow">→</div>
     </a>
+
+    <a class="work-row reveal" href="https://github.com/GhanshyamPaunikar/Translator-Sign-Language" target="_blank" rel="noopener">
+      <div class="num">— 07</div>
+      <h3>ASL <em>Sign Language</em> Recogniser</h3>
+      <div class="tags"><span>MediaPipe</span><span>PyTorch</span><span>OpenCV</span><span>Accessibility</span><span>Real-time</span></div>
+      <div class="year">2026</div>
+      <div class="arrow">→</div>
+    </a>
   </div>
 
   <div class="work-cta">
-    <p class="tiny">Twelve public repositories. Many more under NDA.</p>
+    <p class="tiny">7 shown &nbsp;·&nbsp; Twelve public repositories. Many more under NDA.</p>
     <a class="tiny" href="https://github.com/GhanshyamPaunikar?tab=repositories" target="_blank" rel="noopener"
        style="color:var(--paper);border-bottom:1px solid var(--accent);padding-bottom:4px;letter-spacing:0.1em;text-transform:uppercase;">
       View all repositories ↗
@@ -1101,90 +1130,112 @@ footer {
   </div>
 
   <div class="creds">
-    <div class="cred reveal">
+
+    <a class="cred reveal" href="https://www.coursera.org/account/accomplishments/professional-cert/0Y8DSVXT8GJN" target="_blank" rel="noopener">
       <div class="yr">2025</div>
       <div class="ttl">Data Science Professional Certificate</div>
-      <div class="tag">Certified</div>
-      <div class="org">IBM</div>
-    </div>
-    <div class="cred reveal">
+      <div class="tag">Verify ↗</div>
+      <div class="org">IBM · Coursera</div>
+    </a>
+
+    <a class="cred reveal" href="https://www.coursera.org/account/accomplishments/verify/INTRKWEDJ5VH" target="_blank" rel="noopener">
       <div class="yr">2025</div>
       <div class="ttl">Generative AI: Elevate Your Data Science Career</div>
-      <div class="tag">Certified</div>
-      <div class="org">IBM</div>
-    </div>
-    <div class="cred reveal">
+      <div class="tag">Verify ↗</div>
+      <div class="org">IBM · Coursera</div>
+    </a>
+
+    <a class="cred reveal" href="https://www.coursera.org/account/accomplishments/verify/QI5NMFM97ZZJ" target="_blank" rel="noopener">
       <div class="yr">2025</div>
-      <div class="ttl">IBM Machine Learning with Python</div>
-      <div class="tag">Certified</div>
-      <div class="org">IBM</div>
-    </div>
-    <div class="cred reveal">
+      <div class="ttl">Machine Learning with Python</div>
+      <div class="tag">Verify ↗</div>
+      <div class="org">IBM · Coursera</div>
+    </a>
+
+    <a class="cred reveal" href="https://www.coursera.org/account/accomplishments/specialization/QHT0EF83A674" target="_blank" rel="noopener">
       <div class="yr">2024</div>
       <div class="ttl">Responsible Generative AI Specialisation</div>
-      <div class="tag">Specialisation</div>
-      <div class="org">University of Michigan</div>
-    </div>
-    <div class="cred reveal">
+      <div class="tag">Verify ↗</div>
+      <div class="org">University of Michigan · Coursera</div>
+    </a>
+
+    <a class="cred reveal" href="https://certificates.mooc.fi/validate/s769bl1msv" target="_blank" rel="noopener">
       <div class="yr">2024</div>
       <div class="ttl">Elements of AI</div>
-      <div class="tag">Course</div>
+      <div class="tag">Verify ↗</div>
       <div class="org">University of Helsinki</div>
-    </div>
+    </a>
+
     <div class="cred reveal">
       <div class="yr">2024</div>
-      <div class="ttl">Programming in Python</div>
+      <div class="ttl">Artificial Intelligence</div>
       <div class="tag">Certified</div>
-      <div class="org">NIELIT</div>
+      <div class="org">DRDO · Ministry of Defence, Govt. of India</div>
     </div>
-    <div class="cred reveal">
+
+    <a class="cred reveal" href="https://www.mygreatlearning.com/certificate/CVAPCKRS" target="_blank" rel="noopener">
       <div class="yr">2024</div>
       <div class="ttl">Supervised ML — Logistic Regression &amp; Naïve Bayes</div>
-      <div class="tag">Certified</div>
+      <div class="tag">Verify ↗</div>
       <div class="org">Great Learning</div>
-    </div>
-    <div class="cred reveal">
+    </a>
+
+    <a class="cred reveal" href="https://www.mygreatlearning.com/certificate/ZDHJWXQJ" target="_blank" rel="noopener">
       <div class="yr">2024</div>
       <div class="ttl">Unsupervised Machine Learning — K-Means</div>
-      <div class="tag">Certified</div>
+      <div class="tag">Verify ↗</div>
       <div class="org">Great Learning</div>
-    </div>
-    <div class="cred reveal">
+    </a>
+
+    <a class="cred reveal" href="https://www.linkedin.com/learning/certificates/bf5a20058035852d19771fc4c899cab2ff1933967ad1c164e235f4b602eaf2a3" target="_blank" rel="noopener">
       <div class="yr">2024</div>
       <div class="ttl">Machine Learning with Python — Foundations</div>
-      <div class="tag">Certified</div>
+      <div class="tag">Verify ↗</div>
       <div class="org">LinkedIn Learning</div>
-    </div>
-    <div class="cred reveal">
+    </a>
+
+    <a class="cred reveal" href="https://www.linkedin.com/learning/certificates/88380d7e247af0f3bd2e7b5c3b72f0f92846044154df163145ea39d3c52b7093" target="_blank" rel="noopener">
       <div class="yr">2024</div>
       <div class="ttl">SQL for Data Analysis</div>
-      <div class="tag">Certified</div>
+      <div class="tag">Verify ↗</div>
       <div class="org">LinkedIn Learning</div>
-    </div>
-    <div class="cred reveal">
+    </a>
+
+    <a class="cred reveal" href="https://www.kaggle.com/learn/certification/ghanshyampaunikar/data-visualization" target="_blank" rel="noopener">
       <div class="yr">2024</div>
       <div class="ttl">Data Visualization</div>
-      <div class="tag">Certified</div>
+      <div class="tag">Verify ↗</div>
       <div class="org">Kaggle</div>
-    </div>
+    </a>
+
     <div class="cred reveal">
+      <div class="yr">2024</div>
+      <div class="ttl">2-Day Data Analytics Bootcamp</div>
+      <div class="tag">ID: DGDA7191</div>
+      <div class="org">Dataisgood</div>
+    </div>
+
+    <a class="cred reveal" href="https://www.udemy.com/certificate/UC-e757298e-bc16-4d91-9029-53604423d3ba/" target="_blank" rel="noopener">
       <div class="yr">2023</div>
       <div class="ttl">ML, Data Science &amp; Deep Learning with Python</div>
-      <div class="tag">Certified</div>
+      <div class="tag">Verify ↗</div>
       <div class="org">Udemy</div>
-    </div>
-    <div class="cred reveal">
+    </a>
+
+    <a class="cred reveal" href="https://www.udemy.com/certificate/UC-d40bae60-f65a-46e0-ab76-6686577de364/" target="_blank" rel="noopener">
       <div class="yr">2023</div>
       <div class="ttl">Python Programming for Artificial Intelligence</div>
-      <div class="tag">Certified</div>
+      <div class="tag">Verify ↗</div>
       <div class="org">Datai Team · Udemy</div>
-    </div>
-    <div class="cred reveal">
+    </a>
+
+    <a class="cred reveal" href="https://www.udemy.com/certificate/UC-f367b214-9e87-4b92-8936-1fe7bdc19c75/" target="_blank" rel="noopener">
       <div class="yr">2022</div>
       <div class="ttl">Artificial Intelligence &amp; AR in Unity + Xcode</div>
-      <div class="tag">Certified</div>
+      <div class="tag">Verify ↗</div>
       <div class="org">Udemy</div>
-    </div>
+    </a>
+
   </div>
 </section>
 
@@ -1207,6 +1258,19 @@ footer {
           <span>Community</span>
         </div>
       </div>
+
+      <div class="vol-card" style="margin-top:16px;">
+        <div class="vol-label">Currently Exploring</div>
+        <div class="vol-name" style="font-size:clamp(24px,3vw,36px);">
+          <em>Photography</em>
+        </div>
+        <div class="vol-role">Street · Light · Composition</div>
+        <div class="vol-tags">
+          <span>Newly Started</span>
+          <span>Visual Thinking</span>
+          <span>Human Stories</span>
+        </div>
+      </div>
     </div>
     <div class="col-b reveal delay-1">
       <p class="lede">
@@ -1222,15 +1286,12 @@ footer {
         patience more than cleverness.
       </p>
       <p>
-        I collaborated with cross-functional teams to implement
-        sustainable solutions and make sure outreach actually reached.
         It taught me something engineering rarely does: that <b>empathy
         and consistency</b> compound harder than any metric, and that
         showing up — again and again — is its own kind of skill.
       </p>
       <p>
-        Small gestures, hands-on work, real families. Spreading smiles and
-        a bit of hope, one weekend at a time.
+        Recently I've started picking up a camera. Photography is new territory — learning to <b>see before shooting</b>, to find the frame inside the noise. The same instinct that makes a good data visualisation, I think, makes a good photograph: <b>knowing what to leave out</b>.
       </p>
     </div>
   </div>
